@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>أسعار اليوم</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #f4f4f9; text-align: center; padding: 50px; }
+        .price-card { background: white; padding: 20px; margin: 10px auto; width: 300px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { color: #333; }
+        .price { font-size: 24px; color: #27ae60; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>قائمة الأسعار المحدثة</h1>
+    
+    <div class="price-card">
+        <h3>سعر المنتج الأول</h3>
+        <div class="price" id="item1-price">جاري التحميل...</div>
+    </div>
+
+    <!-- مكتبات Firebase الكلاسيكية المناسبة للـ Realtime Database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // بيانات مشروعك المستخرجة من لوحة التحكم
+        const firebaseConfig = {
+            apiKey: "AIzaSyAMiQviehMk3JB747J5bpFWZ9urnvICpS8",
+            authDomain: "test-647c4.firebaseapp.com",
+            databaseURL: "https://test-647c4-default-rtdb.firebaseio.com/", // ضع رابط Realtime Database الخاص بك هنا
+            projectId: "test-647c4",
+            storageBucket: "test-647c4.firebasestorage.app",
+            messagingSenderId: "739741130923",
+            appId: "1:739741130923:web:5ee5f978f355a163d997ee",
+            measurementId: "G-SQPK6YC33V"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // جلب وعرض السعر حيًا
+        const dbRef = firebase.database().ref('prices/item1');
+        dbRef.on('value', (snapshot) => {
+            const price = snapshot.val();
+            document.getElementById('item1-price').innerText = price ? price + " د.ل" : "غير متوفر";
+        });
+    </script>
+</body>
+</html>

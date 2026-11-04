@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم - تحديث الأسعار</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #fff3f3; text-align: center; padding: 50px; }
+        .admin-box { background: white; padding: 30px; margin: 0 auto; width: 350px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; }
+        button { padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-box">
+        <h2>لوحة التحكم</h2>
+        <p>تحديث سعر المنتج الأول:</p>
+        <input type="number" id="newPrice" placeholder="أدخل السعر الجديد">
+        <br>
+        <button onclick="updatePrice()">حفظ وتحديث</button>
+        <p id="status" style="color: green; margin-top: 10px;"></p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAMiQviehMk3JB747J5bpFWZ9urnvICpS8",
+            authDomain: "test-647c4.firebaseapp.com",
+            databaseURL: "https://test-647c4-default-rtdb.firebaseio.com/", // ضع رابط Realtime Database الخاص بك هنا
+            projectId: "test-647c4",
+            storageBucket: "test-647c4.firebasestorage.app",
+            messagingSenderId: "739741130923",
+            appId: "1:739741130923:web:5ee5f978f355a163d997ee",
+            measurementId: "G-SQPK6YC33V"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        function updatePrice() {
+            const val = document.getElementById('newPrice').value;
+            if(!val) {
+                alert('الرجاء كتابة السعر!');
+                return;
+            }
+
+            firebase.database().ref('prices/item1').set(val)
+                .then(() => {
+                    document.getElementById('status').innerText = "تم التحديث بنجاح!";
+                    setTimeout(() => document.getElementById('status').innerText = "", 3000);
+                })
+                .catch((error) => {
+                    alert("حدث خطأ: " + error.message);
+                });
+        }
+    </script>
+</body>
+</html>
